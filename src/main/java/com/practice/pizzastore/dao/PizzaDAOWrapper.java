@@ -1,10 +1,12 @@
 package com.practice.pizzastore.dao;
 
+import java.lang.annotation.Retention;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import com.practice.pizzastore.bean.PizzaBean;
 import com.practice.pizzastore.bean.PizzaOrderBean;
@@ -39,16 +41,32 @@ public class PizzaDAOWrapper {
         }
         return list;
     }
-
     public PizzaOrderBean addPizzaOrderDetails( PizzaOrderBean pizzaOrderBean){
-        return null;
+        PizzaOrderBean pizzaOrderBeanRet = null;
+        PizzaOrderEntity pizzaOrderEntity = convertPizzaOrderBeantoEntity(pizzaOrderBean);
+        pizzaOrderBeanRet = convertPizzaOrderEntityToBean(pizzaOrderDAO.save(pizzaOrderEntity));
+        return pizzaOrderBeanRet;
     }
-
     public double getPizzaPrice(int pizzaId){
-        return 0;
+        double price = 0;
+        PizzaEntity pizzaEntity =  entityManager.find(PizzaEntity.class, pizzaId);
+        if(pizzaEntity != null){
+            price = pizzaEntity.getPrice();
+        }
+        return price;
     }
     public List<PizzaOrderBean> getOrderDetails(double fromBill, double toBill){
-        return null;
+        List<PizzaOrderBean> listPizzaOrderBean = null;
+        Query query =  entityManager.createQuery("select k from PizzaOrderEntity where k.bill>=?1 and k.bill<=?2");
+        query.setParameter(1, fromBill);
+        query.setParameter(2, toBill);
+        List<PizzaOrderEntity> listPizzaOrderEntity = query.getResultList();
+        listPizzaOrderBean = new ArrayList<PizzaOrderBean>();
+        for (PizzaOrderEntity entity : listPizzaOrderEntity){
+            PizzaOrderBean bean = convertPizzaOrderEntityToBean(entity);
+            listPizzaOrderBean.add(bean);
+        }
+        return listPizzaOrderBean;
     }
 
     //Utility methods
@@ -57,7 +75,6 @@ public class PizzaDAOWrapper {
         BeanUtils.copyProperties(bean, entity);
         return entity;
     }
-
     public static PizzaOrderBean convertPizzaOrderEntityToBean(PizzaOrderEntity entity){
         PizzaOrderBean bean = new PizzaOrderBean();
         BeanUtils.copyProperties(entity, bean);
@@ -68,7 +85,6 @@ public class PizzaDAOWrapper {
         BeanUtils.copyProperties(bean, entity);
         return entity;
     }
-
     public static PizzaBean convertPizzaOrderEntityToBean(PizzaEntity entity){
         PizzaBean bean = new PizzaBean();
         BeanUtils.copyProperties(entity, bean);

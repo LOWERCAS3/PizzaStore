@@ -1,5 +1,7 @@
 package com.practice.pizzastore.web.controller;
 
+import java.util.Map;
+
 import com.practice.pizzastore.bean.PizzaOrderBean;
 import com.practice.pizzastore.service.PizzaService;
 
@@ -20,5 +22,10 @@ public class PizzaOrderController {
     public ModelAndView addPizzaOrderDetails(PizzaOrderBean pizzaOrderBean, BindingResult bindingResult){
         return null;
     }
-    
+    public Map<Integer, String> populatePizzaNames(){
+        return null;
+    }
+    public ModelAndView handleAllExceptions(Exception exception){
+        return null;
+    }
 }
