@@ -11,7 +11,14 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <context:component-scan  base-package="src.main.java.com.practice.pizzastore.service, src.main.java.com.practice.pizzastore.dao"/>
-    <import resource="cst_jap_spring_config.xml"/>
-    
+        <context:component-scan base-package="src.main.java.com.practice.pizzastore.web" />
+        <mvc:annotation-driven />
+        <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+            <property name="prefix">
+                <value>/WEB-INF/jspViews/</value>
+            </property>
+            <property name="suffix">
+                <value>.jsp</value>
+            </property>
+        </bean>
 </beans>
