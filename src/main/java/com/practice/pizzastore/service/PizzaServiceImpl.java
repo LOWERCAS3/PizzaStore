@@ -18,7 +18,6 @@ public class PizzaServiceImpl implements PizzaService{
 
     @Override
     public List<PizzaOrderBean> getOrderDetails(double fromBill, double toBill) throws Exception {
-        // TODO Auto-generated method stub
         List<PizzaOrderBean> list = pizzaDAOWrapper.getOrderDetails(fromBill, toBill);
         if(list == null || list.size() == 0){
             throw new Exception("No records found for the entered bill range!!!");
@@ -28,7 +27,6 @@ public class PizzaServiceImpl implements PizzaService{
 
     @Override
     public PizzaOrderBean addPizzaOrderDetails(PizzaOrderBean pizzaOrderBean) {
-        // TODO Auto-generated method stub
         // Calculating pizza bill needed to create pizzaOrder 
         double price = pizzaDAOWrapper.getPizzaPrice(pizzaOrderBean.getPizzaId());
         double bill = pizzaOrderBean.getNumberOfPiecesOrdered()*price;
@@ -38,7 +36,6 @@ public class PizzaServiceImpl implements PizzaService{
 
     @Override
     public Map<Integer, String> findAllPizzaDetails() {
-        // TODO Auto-generated method stub
         List<PizzaBean> pizzaList = pizzaDAOWrapper.findAllPizzaDetails();
         Map<Integer, String> pizzaMap =  new HashMap<Integer, String>();
         for(PizzaBean bean : pizzaList){
